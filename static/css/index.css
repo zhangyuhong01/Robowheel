@@ -49,10 +49,12 @@ body {
   overflow: hidden;
 }
 
+
 .publication-title .title-logo {
-  height: 1.2em;              /* 跟文字高度差不多 */
-  margin-right: 0.5rem;       /* 图片和文字之间留一点空隙 */
-  vertical-align: text-top;   /* 关键：和第一行文字顶部对齐 */
+  height: 1em;          /* 高度 = h1 的字体大小 */
+  width: auto;          /* 保持宽高比 */
+  margin-right: 0.5rem; /* 和文字留一点间距 */
+  vertical-align: text-bottom;  /* 和文字基线对齐，基本就是和第一行齐 */
 }
 
 .button.is-dark {

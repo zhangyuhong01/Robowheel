@@ -49,6 +49,12 @@ body {
   overflow: hidden;
 }
 
+.publication-title .title-logo {
+  height: 1.2em;              /* 跟文字高度差不多 */
+  margin-right: 0.5rem;       /* 图片和文字之间留一点空隙 */
+  vertical-align: text-top;   /* 关键：和第一行文字顶部对齐 */
+}
+
 .button.is-dark {
   background: var(--text-primary) !important;
   border: none !important;

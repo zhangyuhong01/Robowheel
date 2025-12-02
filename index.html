@@ -246,7 +246,7 @@
 
               <!-- Authors -->
               <div class="is-size-5 publication-authors">
-                <span class="author-block"><a href="#" target="_blank">Yuhong Zhang</a><sup>1,*</sup>,</span>
+                <span class="author-block"><a href="https://scholar.google.com/citations?user=oV7sxpYAAAAJ&hl=zh-CN" target="_blank">Yuhong Zhang</a><sup>1,*</sup>,</span>
                 <span class="author-block"><a href="#" target="_blank">Zihan Gao</a><sup>1,*</sup>,</span>
                 <span class="author-block"><a href="#" target="_blank">Shengpeng Li</a><sup>2</sup>,</span>
                 <span class="author-block"><a href="#" target="_blank">Linghao Chen</a><sup>1</sup>,</span>
@@ -269,7 +269,7 @@
                 <span class="author-block"><sup>2</sup> Synapath</span>
                 <span class="author-block"><sup>3</sup> The Chinese University of Hong Kong</span>
                 <span class="author-block"><sup>4</sup> The University of Hong Kong</span>
-                <span class="author-block"><sup>5</sup> PolyU</span>
+                <span class="author-block"><sup>5</sup> The Hong Kong Polytechnic University</span>
                 <span class="eql-cntrb"><small><br>
                   <sup>*</sup> Equal contribution &nbsp; | &nbsp;
                   <sup>&dagger;</sup> Corresponding authors:
@@ -353,7 +353,7 @@
 
 
 <!-- Teaser image -->
-<section class="hero teaser">
+<section class="hero teaser1">
   <div class="container is-max-desktop">
     <div class="hero-body">
       <!-- Teaser image (replaces video) -->
@@ -368,8 +368,14 @@
 
       <!-- Video description kept as-is -->
       <h2 class="subtitle has-text-centered">
-        We present a training pipeline and data engine that directly leverage real-world manipulation behaviors, transfer effectively across diverse robot embodiments, and continually improve by iteratively absorbing rapidly accumulating physical interaction experience.
+        We present a data engine and training pipeline that directly leverage real-world manipulation behaviors, transfer effectively across diverse robot embodiments, and continually improve by iteratively absorbing rapidly accumulating physical interaction experience.
       </h2>
+      <style>
+        /* 将本 teaser 部分内的文字设为斜体 */
+        .hero.teaser1 {
+          font-style: italic;
+        }
+      </style>
     </div>
   </div>
 </section>
@@ -411,35 +417,96 @@
 <!-- End paper abstract -->
 
 
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Pipeline Overview</h2>
+            <p>
+                We construct a <strong>reconstruction-retargeting-augmentation-training</strong> loop in Robowheel, the data engine directly leverage real-world manipulation behaviors,
+                transfer effectively across diverse robot embodiments, and continually improve by iteratively absorbing 
+                rapidly accumulating physical interaction experience.
+            </p>  
+      <!-- Teaser image (replaces video) -->
+      <figure class="image is-16by9">
+        <!-- TODO: Replace with your image file path -->
+        <img
+          src="static/images/datapipe.jpg"
+          alt="Teaser image of real-world robot manipulation"
+          loading="lazy"
+        >
+      </figure>
+
+            <p>
+              RoboWheel first watches humans and objects move, then rebuilds that interaction in a clean physical world. It estimates whole-body 
+              or hand-only motion, reconstructs object geometry and 6-DoF pose, and sends everything into a canonical action space. A TSDF stage 
+              then optimizes the hand pose to remove interpenetration with the object, for example by solving
+              \[
+              \min_{\Theta_{\text{hand}}}\;
+              \sum_{t} \sum_{v \in \mathcal{V}_{\text{hand}}}
+              \phi_o\!\big(T_{\text{hand}}(t)\,v\big)^2
+              + \lambda \big\| \Delta T_{\text{hand}}(t) \big\|^2
+              \]
+              where 𝜙𝑜 is the object TSDF and \(𝑇_{hand}(𝑡)\) is the hand transform at timestamp \(t\), and \(\Delta T_{\text{hand}}(t)=\log\!\big(T_{\text{hand}}(t)^{-1}T_{\text{hand}}(t+1)\big)\) 
+              denotes the incremental transform between consecutive frames.
+
+              After this TSDF optimization, an RL policy in simulation nudges the 3D hand poses so that the final HOI sequence is physically plausible and dynamically smooth.
+            </p>
+            <!-- Vertical spacer: adjust the height value as needed -->
+            <div class="vertical-spacer" role="separator" aria-hidden="true" style="height:2rem;"></div>
+            <p>
+              Next, RoboWheel puts these human skills onto robots. It retargets the refined actions to different robot arms, 
+              replays them in sim or on hardware to gather rich visual data and augment trajectories, then feeds that into VLA/IL 
+              models like Pi0, RDT, ACT, and Diffusion Policy. The same canonical actions can also be mapped to dexterous hands 
+              and humanoids, turning one human demonstration into skills that travel across embodiments and domains.
+            </p>
+
+        </div>
+      </div>
+
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)'], ['$', '$']],
+          displayMath: [['\\[', '\\]'], ['$$', '$$']]
+        }
+      };
+      </script>
+      <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <!-- Video description kept as-is -->
+    </div>
+  </div>
+</section>
+
+
 <!-- Image carousel -->
+ <!--
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
        <div class="item">
-        <!-- TODO: Replace with your research result images -->
+
         <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
         <h2 class="subtitle has-text-centered">
           First image description.
         </h2>
       </div>
       <div class="item">
-        <!-- Your image here -->
         <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
         <h2 class="subtitle has-text-centered">
           Second image description.
         </h2>
       </div>
       <div class="item">
-        <!-- Your image here -->
         <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
         <h2 class="subtitle has-text-centered">
          Third image description.
        </h2>
      </div>
      <div class="item">
-      <!-- Your image here -->
+
       <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
       <h2 class="subtitle has-text-centered">
         Fourth image description.
@@ -449,61 +516,50 @@
 </div>
 </div>
 </section>
-<!-- End image carousel -->
+-->
+
 
 
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/gG6QVITc82U?si=b455jCtlUAqcBiRO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
  -->
 
-
-<!-- Youtube video -->
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
+      <h2 class="title is-3 has-text-centered">HOI Reconstruction Results</h2>
+
+      <style>
+        /* 统一视频窗口尺寸，移动端适配 */
+        .results-carousel .video-item video {
+          width: 100%;
+          height: 720px;        /* 固定高度，保证所有视频同样大小 */
+          object-fit: cover;    /* 保持填充且裁切溢出区域 */
+          display: block;
+          border-radius: 4px;
+          background: #000;
+        }
+        @media (max-width: 768px) {
+          .results-carousel .video-item video {
+            height: 220px; /* 小屏幕使用较小高度 */
+          }
+        }
+      </style>
+
       <div id="results-carousel" class="carousel results-carousel">
 
-        <div class="item item-video1">
+        <div class="item video-item">
           <figure class="has-text-centered">
-            <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
-              <source src="static/videos/traj_aug.mp4" type="video/mp4">
+            <video poster="" id="video1" controls muted loop preload="metadata">
+              <source src="static/videos/20251202_17212951.mov" type="video/mp4">
             </video>
-            <h2 class="subtitle has-text-centered">
-              Trajectory Augmentation
-            </h2>
           </figure>
         </div>
 
-        <div class="item item-video2">
+        <div class="item video-item">
           <figure class="has-text-centered">
-            <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
-              <source src="static/videos/obj_aug.mp4" type="video/mp4">
+            <video poster="" id="video2" controls muted loop preload="metadata">
+              <source src="static/videos/dexycb.mov" type="video/mp4">
             </video>
-            <h2 class="subtitle has-text-centered">
-              First image description.
-            </h2>
-          </figure>
-        </div>
-
-        <div class="item item-video3">
-          <figure class="has-text-centered">
-            <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
-              <source src="static/videos/arm_aug.mp4" type="video/mp4">
-            </video>
-            <h2 class="subtitle has-text-centered">
-              First image description.
-            </h2>
-          </figure>
-        </div>
-
-        <div class="item item-video4">
-          <figure class="has-text-centered">
-            <video poster="" id="video4" controls muted loop height="100%" preload="metadata">
-              <source src="static/videos/bg_aug.mp4" type="video/mp4">
-            </video>
-            <h2 class="subtitle has-text-centered">
-              First image description.
-            </h2>
           </figure>
         </div>
 
@@ -511,6 +567,64 @@
     </div>
   </div>
 </section>
+
+
+<!-- Youtube video -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Scalability</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+
+            <div class="item item-video1">
+              <figure class="has-text-centered">
+                <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
+                  <source src="static/videos/traj_aug.mp4" type="video/mp4">
+                </video>
+                <h2 class="subtitle has-text-centered">
+                  Trajectory Augmentation
+                </h2>
+              </figure>
+            </div>
+
+            <div class="item item-video2">
+              <figure class="has-text-centered">
+                <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
+                  <source src="static/videos/obj_aug.mov" type="video/mp4">
+                </video>
+                <h2 class="subtitle has-text-centered">
+                  Object Augmentation
+                </h2>
+              </figure>
+            </div>
+
+            <div class="item item-video3">
+              <figure class="has-text-centered">
+                <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
+                  <source src="static/videos/arm_aug.mov" type="video/mp4">
+                </video>
+                <h2 class="subtitle has-text-centered">
+                  Arm Augmentation
+                </h2>
+              </figure>
+            </div>
+
+            <div class="item item-video4">
+              <figure class="has-text-centered">
+                <video poster="" id="video4" controls muted loop height="100%" preload="metadata">
+                  <source src="static/videos/bg_aug.mov" type="video/mp4">
+                </video>
+                <h2 class="subtitle has-text-centered">
+                  Background Augmentation
+                </h2>
+              </figure>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- End video carousel -->
 
